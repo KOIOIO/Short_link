@@ -35,6 +35,9 @@ func NewGenerateShortUrlLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 }
 
 func (l *GenerateShortUrlLogic) GenerateShortUrl(in *shortUrl.GenerateShortUrlRequest) (*shortUrl.GenerateShortUrlResponse, error) {
+
+	//做一个流量控制器
+	// 防止恶意攻击下数据量崩溃
 	ip := limite_processer.GetClientIP(l.ctx)
 	if !limite_processer.AllowIP(ip) {
 		return &shortUrl.GenerateShortUrlResponse{
