@@ -8,7 +8,7 @@ Etcd:
 Mysql:
   DbUser: root
   DbPort: "3306"
-  DbPass: wwy040609
+  DbPass: root
   DbName: shorturl
   DbHost: localhost
 
