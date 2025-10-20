@@ -3,10 +3,11 @@ package logic
 import (
 	"context"
 	"errors"
+	"time"
+
 	"example.com/shorturl/short-url/zero_remake/common/errmsg"
 	"example.com/shorturl/short-url/zero_remake/models"
 	"gorm.io/gorm"
-	"time"
 
 	"example.com/shorturl/short-url/zero_remake/shorturl_rpc/internal/svc"
 	"example.com/shorturl/short-url/zero_remake/shorturl_rpc/types/shortUrl"
@@ -45,13 +46,15 @@ func (l *HandleShortLogic) HandleShort(in *shortUrl.HandleShortRequest) (*shortU
 		}, nil
 	}
 
-	var shortURLRecord models.Shorturl
-	if _, err := l.ReadFormMysql(in.Shortcode); err != nil {
+	// 从数据库读取短链记录并赋值
+	shortURLRecordPtr, err := l.ReadFormMysql(in.Shortcode)
+	if err != nil || shortURLRecordPtr == nil {
 		return &shortUrl.HandleShortResponse{
 			Code:    errmsg.ERROR,
 			LongUrl: "",
 		}, errors.New("fail to get original URL")
 	}
+	shortURLRecord := *shortURLRecordPtr
 
 	if err := l.SaveToRedis(in.Shortcode, shortURLRecord.Url, time.Hour*24); err != nil {
 		return &shortUrl.HandleShortResponse{

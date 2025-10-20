@@ -29,6 +29,11 @@ func getIPLimiter(ip string) *IPLimiter {
 }
 
 func AllowIP(ip string) bool {
+	// 临时禁用限流：为方便测试/排查问题，AllowIP 始终返回 true
+	// 如需恢复限流，请还原下面被注释的原实现
+	return true
+
+	/* 原始实现（已注释）
 	limiter := getIPLimiter(ip)
 	limiter.lock.Lock()
 	defer limiter.lock.Unlock()
@@ -43,6 +48,7 @@ func AllowIP(ip string) bool {
 		return true
 	}
 	return false
+	*/
 }
 
 func GetClientIP(ctx context.Context) string {

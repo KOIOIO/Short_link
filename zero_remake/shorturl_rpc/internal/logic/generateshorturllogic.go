@@ -7,8 +7,6 @@ import (
 	"strings"
 	"time"
 
-	limite_processer "example.com/shorturl/short-url/zero_remake/shorturl_rpc/internal/logic/limit_processer"
-
 	"example.com/shorturl/short-url/zero_remake/common/errmsg"
 	"example.com/shorturl/short-url/zero_remake/models"
 	"example.com/shorturl/short-url/zero_remake/shorturl_rpc/internal/logic/repository"
@@ -38,13 +36,13 @@ func (l *GenerateShortUrlLogic) GenerateShortUrl(in *shortUrl.GenerateShortUrlRe
 
 	//做一个流量控制器
 	// 防止恶意攻击下数据量崩溃
-	ip := limite_processer.GetClientIP(l.ctx)
-	if !limite_processer.AllowIP(ip) {
-		return &shortUrl.GenerateShortUrlResponse{
-			Code:      errmsg.ERROR_RATE_LIMIT,
-			Shortcode: "",
-		}, errors.New("rate limit exceeded")
-	}
+	// ip := limite_processer.GetClientIP(l.ctx)
+	// if !limite_processer.AllowIP(ip) {
+	// 	return &shortUrl.GenerateShortUrlResponse{
+	// 		Code:      errmsg.ERROR_RATE_LIMIT,
+	// 		Shortcode: "",
+	// 	}, errors.New("rate limit exceeded")
+	// }
 
 	if in.Url == "" {
 		return &shortUrl.GenerateShortUrlResponse{

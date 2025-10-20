@@ -3,11 +3,12 @@ package server
 import (
 	"errors"
 
-	"gorm.io/gorm"
 	model2 "shorturl/modle"
 	"shorturl/server/repository"
 	"shorturl/utils/errmsg"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 func HandleShort(shortCode string) (code int, OriginalURL string) {
