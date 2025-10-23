@@ -21,3 +21,7 @@ BizRedis:
 log:
   path: log/log
 
+token:
+  accesstoken: fdsdfsdfsdfdsfsd
+  refreshtoken: sdasdfsfdsfiasdyf
+  
