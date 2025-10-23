@@ -98,3 +98,5 @@ func (sf *MySnowflake) NextID() (uint64, error) {
 	id |= int64(sf.sequence) & ((1 << sequenceBits) - 1)
 	return uint64(id), nil
 }
+
+var IDGnerator = GetMyFlake()

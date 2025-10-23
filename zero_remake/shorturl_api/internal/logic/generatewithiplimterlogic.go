@@ -16,26 +16,26 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type GenerateLogic struct {
+type GenerateWithIPLimterLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewGenerateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GenerateLogic {
-	return &GenerateLogic{
+func NewGenerateWithIPLimterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GenerateWithIPLimterLogic {
+	return &GenerateWithIPLimterLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *GenerateLogic) Generate(req *types.GenerateRequest) (resp *types.GenerateResponse, err error) {
+func (l *GenerateWithIPLimterLogic) GenerateWithIPLimter(req *types.GenerateRequest) (resp *types.GenerateResponse, err error) {
 	// todo: add your logic here and delete this line
 	url := strings.TrimSpace(req.Url)
 	expiration := strings.TrimSpace(req.Expiration)
 
-	GenerateShortUrlResponse, _ := l.svcCtx.ShortUrlRpc.GenerateShortUrl(l.ctx, &shortUrl.GenerateShortUrlRequest{
+	GenerateShortUrlResponse, _ := l.svcCtx.ShortUrlRpc.GenerateWithIPLimter(l.ctx, &shortUrl.GenerateShortUrlRequest{
 		Url:        url,
 		Expiration: expiration,
 	})
@@ -45,6 +45,12 @@ func (l *GenerateLogic) Generate(req *types.GenerateRequest) (resp *types.Genera
 			ShortUrl: GenerateShortUrlResponse.Shortcode,
 			Message:  "短链接生成成功",
 		}, nil
+	} else if GenerateShortUrlResponse.Code == errmsg.ERROR_RATE_LIMIT {
+		return &types.GenerateResponse{
+			Code:     errmsg.ERROR_RATE_LIMIT,
+			ShortUrl: "",
+			Message:  "请求过于频繁，请稍后再试",
+		}, errors.New("请求过于频繁，请稍后再试")
 	} else {
 		return &types.GenerateResponse{
 			Code:     http.StatusBadRequest,
@@ -52,5 +58,4 @@ func (l *GenerateLogic) Generate(req *types.GenerateRequest) (resp *types.Genera
 			Message:  "生成短链接失败",
 		}, errors.New("生成短链接失败")
 	}
-
 }

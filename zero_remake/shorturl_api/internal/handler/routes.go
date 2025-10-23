@@ -21,8 +21,23 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 			{
 				Method:  http.MethodPost,
+				Path:    "/filterbymybloomfilter",
+				Handler: FilterByMyBloomFilterHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
 				Path:    "/generate",
 				Handler: GenerateHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/generatebymysnowflake",
+				Handler: GenerateIDbMySnowflakeHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/generatewithiplimiter",
+				Handler: GenerateWithIPLimterHandler(serverCtx),
 			},
 		},
 	)

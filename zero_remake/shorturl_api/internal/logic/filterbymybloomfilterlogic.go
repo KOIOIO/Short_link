@@ -16,26 +16,26 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type GenerateLogic struct {
+type FilterByMyBloomFilterLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewGenerateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GenerateLogic {
-	return &GenerateLogic{
+func NewFilterByMyBloomFilterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FilterByMyBloomFilterLogic {
+	return &FilterByMyBloomFilterLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *GenerateLogic) Generate(req *types.GenerateRequest) (resp *types.GenerateResponse, err error) {
+func (l *FilterByMyBloomFilterLogic) FilterByMyBloomFilter(req *types.GenerateRequest) (resp *types.GenerateResponse, err error) {
 	// todo: add your logic here and delete this line
 	url := strings.TrimSpace(req.Url)
 	expiration := strings.TrimSpace(req.Expiration)
 
-	GenerateShortUrlResponse, _ := l.svcCtx.ShortUrlRpc.GenerateShortUrl(l.ctx, &shortUrl.GenerateShortUrlRequest{
+	GenerateShortUrlResponse, _ := l.svcCtx.ShortUrlRpc.FilterByMyBloomFilter(l.ctx, &shortUrl.GenerateShortUrlRequest{
 		Url:        url,
 		Expiration: expiration,
 	})
@@ -52,5 +52,4 @@ func (l *GenerateLogic) Generate(req *types.GenerateRequest) (resp *types.Genera
 			Message:  "生成短链接失败",
 		}, errors.New("生成短链接失败")
 	}
-
 }

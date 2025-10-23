@@ -10,7 +10,7 @@ Mysql:
   DbPort: "3306"
   DbPass: root
   DbName: shorturl
-  DbHost: localhost
+  DbHost: 127.0.0.1
 
 BizRedis:
   RedisHost: 127.0.0.1
@@ -21,7 +21,4 @@ BizRedis:
 log:
   path: log/log
 
-token:
-  accesstoken: fdsdfsdfsdfdsfsd
-  refreshtoken: sdasdfsfdsfiasdyf
   

@@ -28,6 +28,15 @@ service shorturl-api {
 	@handler Generate
 	post /generate (GenerateRequest) returns (GenerateResponse)
 
+	@handler GenerateIDbMySnowflake
+	post /generatebymysnowflake (GenerateRequest) returns (GenerateResponse)
+
+	@handler FilterByMyBloomFilter
+	post /filterbymybloomfilter (GenerateRequest) returns (GenerateResponse)
+
+	@handler GenerateWithIPLimter
+	post /generatewithiplimiter (GenerateRequest) returns (GenerateResponse)
+
 	@handler Redirect
 	get /:shortURL (RedirectRequest) returns (RedirectResponse)
 }

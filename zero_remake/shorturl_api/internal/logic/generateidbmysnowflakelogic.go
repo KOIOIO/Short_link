@@ -16,26 +16,26 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type GenerateLogic struct {
+type GenerateIDbMySnowflakeLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewGenerateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GenerateLogic {
-	return &GenerateLogic{
+func NewGenerateIDbMySnowflakeLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GenerateIDbMySnowflakeLogic {
+	return &GenerateIDbMySnowflakeLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *GenerateLogic) Generate(req *types.GenerateRequest) (resp *types.GenerateResponse, err error) {
-	// todo: add your logic here and delete this line
+func (l *GenerateIDbMySnowflakeLogic) GenerateIDbMySnowflake(req *types.GenerateRequest) (resp *types.GenerateResponse, err error) {
+
 	url := strings.TrimSpace(req.Url)
 	expiration := strings.TrimSpace(req.Expiration)
 
-	GenerateShortUrlResponse, _ := l.svcCtx.ShortUrlRpc.GenerateShortUrl(l.ctx, &shortUrl.GenerateShortUrlRequest{
+	GenerateShortUrlResponse, _ := l.svcCtx.ShortUrlRpc.GenerateIDbMySnowflake(l.ctx, &shortUrl.GenerateShortUrlRequest{
 		Url:        url,
 		Expiration: expiration,
 	})

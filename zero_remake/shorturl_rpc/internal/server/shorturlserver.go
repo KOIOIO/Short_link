@@ -32,3 +32,18 @@ func (s *ShortUrlServer) HandleShort(ctx context.Context, in *shortUrl.HandleSho
 	l := logic.NewHandleShortLogic(ctx, s.svcCtx)
 	return l.HandleShort(in)
 }
+
+func (s *ShortUrlServer) GenerateIDbMySnowflake(ctx context.Context, in *shortUrl.GenerateShortUrlRequest) (*shortUrl.GenerateShortUrlResponse, error) {
+	l := logic.NewGenerateIDbMySnowflakeLogic(ctx, s.svcCtx)
+	return l.GenerateIDbMySnowflake(in)
+}
+
+func (s *ShortUrlServer) FilterByMyBloomFilter(ctx context.Context, in *shortUrl.GenerateShortUrlRequest) (*shortUrl.GenerateShortUrlResponse, error) {
+	l := logic.NewFilterByMyBloomFilterLogic(ctx, s.svcCtx)
+	return l.FilterByMyBloomFilter(in)
+}
+
+func (s *ShortUrlServer) GenerateWithIPLimter(ctx context.Context, in *shortUrl.GenerateShortUrlRequest) (*shortUrl.GenerateShortUrlResponse, error) {
+	l := logic.NewGenerateWithIPLimterLogic(ctx, s.svcCtx)
+	return l.GenerateWithIPLimter(in)
+}

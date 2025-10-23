@@ -23,3 +23,13 @@ time="2025-10-20 19:07:06" level=info msg="RPC call succeeded" duration=30.7395m
 time="2025-10-20 19:07:10" level=info msg="RPC call succeeded" duration=4.9238ms method=/shortUrl.ShortUrl/HandleShort
 time="2025-10-20 19:07:15" level=info msg="RPC call succeeded" duration=5.1926ms method=/shortUrl.ShortUrl/GenerateShortUrl
 time="2025-10-20 19:07:16" level=info msg="RPC call succeeded" duration=4.0081ms method=/shortUrl.ShortUrl/GenerateShortUrl
+time="2025-10-20 19:13:11" level=info msg="RPC call succeeded" duration=57.4404ms method=/shortUrl.ShortUrl/GenerateShortUrl
+time="2025-10-20 19:13:12" level=info msg="RPC call succeeded" duration=5.7411ms method=/shortUrl.ShortUrl/HandleShort
+time="2025-10-20 19:13:17" level=info msg="RPC call succeeded" duration=6.273ms method=/shortUrl.ShortUrl/GenerateShortUrl
+time="2025-10-20 19:13:17" level=info msg="RPC call succeeded" duration=5.5331ms method=/shortUrl.ShortUrl/GenerateShortUrl
+time="2025-10-20 19:13:18" level=info msg="RPC call succeeded" duration=4.7993ms method=/shortUrl.ShortUrl/GenerateShortUrl
+time="2025-10-20 19:13:18" level=info msg="RPC call succeeded" duration=5.9825ms method=/shortUrl.ShortUrl/GenerateShortUrl
+time="2025-10-20 19:13:18" level=info msg="RPC call succeeded" duration=5.01ms method=/shortUrl.ShortUrl/GenerateShortUrl
+time="2025-10-20 19:13:18" level=info msg="RPC call succeeded" duration=4.5703ms method=/shortUrl.ShortUrl/GenerateShortUrl
+time="2025-10-20 19:14:08" level=info msg="RPC call succeeded" duration=53.201ms method=/shortUrl.ShortUrl/GenerateShortUrl
+time="2025-10-20 19:14:09" level=info msg="RPC call succeeded" duration=5.7578ms method=/shortUrl.ShortUrl/HandleShort

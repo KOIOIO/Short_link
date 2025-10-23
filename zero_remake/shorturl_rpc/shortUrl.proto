@@ -24,4 +24,7 @@ message HandleShortResponse {
 service ShortUrl {
     rpc GenerateShortUrl (GenerateShortUrlRequest) returns (GenerateShortUrlResponse) {}
     rpc HandleShort (HandleShortRequest) returns (HandleShortResponse) {}
+    rpc GenerateIDbMySnowflake (GenerateShortUrlRequest) returns (GenerateShortUrlResponse) {}
+    rpc FilterByMyBloomFilter (GenerateShortUrlRequest) returns (GenerateShortUrlResponse) {}
+    rpc GenerateWithIPLimter (GenerateShortUrlRequest) returns (GenerateShortUrlResponse) {}
 }

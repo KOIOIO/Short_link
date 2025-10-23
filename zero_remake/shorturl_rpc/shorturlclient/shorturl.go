@@ -22,6 +22,9 @@ type (
 	ShortUrl interface {
 		GenerateShortUrl(ctx context.Context, in *GenerateShortUrlRequest, opts ...grpc.CallOption) (*GenerateShortUrlResponse, error)
 		HandleShort(ctx context.Context, in *HandleShortRequest, opts ...grpc.CallOption) (*HandleShortResponse, error)
+		GenerateIDbMySnowflake(ctx context.Context, in *GenerateShortUrlRequest, opts ...grpc.CallOption) (*GenerateShortUrlResponse, error)
+		FilterByMyBloomFilter(ctx context.Context, in *GenerateShortUrlRequest, opts ...grpc.CallOption) (*GenerateShortUrlResponse, error)
+		GenerateWithIPLimter(ctx context.Context, in *GenerateShortUrlRequest, opts ...grpc.CallOption) (*GenerateShortUrlResponse, error)
 	}
 
 	defaultShortUrl struct {
@@ -43,4 +46,19 @@ func (m *defaultShortUrl) GenerateShortUrl(ctx context.Context, in *GenerateShor
 func (m *defaultShortUrl) HandleShort(ctx context.Context, in *HandleShortRequest, opts ...grpc.CallOption) (*HandleShortResponse, error) {
 	client := shortUrl.NewShortUrlClient(m.cli.Conn())
 	return client.HandleShort(ctx, in, opts...)
+}
+
+func (m *defaultShortUrl) GenerateIDbMySnowflake(ctx context.Context, in *GenerateShortUrlRequest, opts ...grpc.CallOption) (*GenerateShortUrlResponse, error) {
+	client := shortUrl.NewShortUrlClient(m.cli.Conn())
+	return client.GenerateIDbMySnowflake(ctx, in, opts...)
+}
+
+func (m *defaultShortUrl) FilterByMyBloomFilter(ctx context.Context, in *GenerateShortUrlRequest, opts ...grpc.CallOption) (*GenerateShortUrlResponse, error) {
+	client := shortUrl.NewShortUrlClient(m.cli.Conn())
+	return client.FilterByMyBloomFilter(ctx, in, opts...)
+}
+
+func (m *defaultShortUrl) GenerateWithIPLimter(ctx context.Context, in *GenerateShortUrlRequest, opts ...grpc.CallOption) (*GenerateShortUrlResponse, error) {
+	client := shortUrl.NewShortUrlClient(m.cli.Conn())
+	return client.GenerateWithIPLimter(ctx, in, opts...)
 }
