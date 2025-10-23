@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h1 class="fade-in">🔗 <span class="highlight">短链接生成器</span></h1>
-    <form @submit.prevent="generateShortURL" class="form fade-in">
+  <form @submit.prevent="generateShortURL" class="form fade-in">
       <div class="form-group">
         <label>原始链接:</label>
         <input v-model="url" type="text" required placeholder="请输入原始链接..." />
@@ -17,6 +17,11 @@
       <button type="submit" :disabled="loading">
         {{ loading ? '生成中...' : '✨ 生成短链接' }}
       </button>
+      <div class="alt-actions">
+        <button type="button" class="small" @click="generateBySnowflake" :disabled="loading">生成（雪花ID）</button>
+        <button type="button" class="small" @click="generateByBloom" :disabled="loading">生成（我的布隆）</button>
+        <button type="button" class="small" @click="generateWithIPLimiter" :disabled="loading">生成（IP 限流）</button>
+      </div>
     </form>
 
     <transition name="bounce">
@@ -78,6 +83,57 @@ const generateShortURL = async () => {
     loading.value = false
   }
 }
+
+const postTo = async (path) => {
+  loading.value = true
+  try {
+    const response = await axios.post(`http://localhost:8080/${path}`, {
+      url: url.value,
+      expiration: expiration.value,
+    }, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      transformRequest: [(data) => {
+        return Object.entries(data).map(([key, val]) => `${encodeURIComponent(key)}=${encodeURIComponent(val)}`).join('&')
+      }]
+    })
+
+    shortUrl.value = `http://localhost:8080/${response.data.short_url}`
+  } catch (error) {
+    let isRateLimited = false
+    if (error.response) {
+      const data = error.response.data
+      if (data && String(data.code) === '5001') {
+        alert('为防止数据库崩溃，请半个小时后再生成')
+        isRateLimited = true
+      } else if (error.response.status === 500 && error.response.statusText === 'Internal Server Error') {
+        alert('为防止数据库崩溃，请半个小时后再生成')
+        isRateLimited = true
+      } else if (typeof data === 'string' && data.includes('rate limit')) {
+        alert('为防止数据库崩溃，请半个小时后再生成')
+        isRateLimited = true
+      }
+    }
+    if (!isRateLimited) {
+      alert('生成失败，请检查输入！')
+    }
+  } finally {
+    loading.value = false
+  }
+}
+
+const generateBySnowflake = async () => {
+  await postTo('generatebymysnowflake')
+}
+
+const generateByBloom = async () => {
+  await postTo('filterbymybloomfilter')
+}
+
+const generateWithIPLimiter = async () => {
+  await postTo('generatewithiplimiter')
+}
 </script>
 
 <style scoped>
@@ -138,9 +194,26 @@ h1 {
 
 .highlight {
   background: linear-gradient(90deg, #f9d423 30%, #ff4e50 70%);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: bold;
+}
+
+.alt-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.small {
+  flex: 1;
+  padding: 8px 10px;
+  font-size: 13px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.06);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.06);
 }
 
 .form-group {
