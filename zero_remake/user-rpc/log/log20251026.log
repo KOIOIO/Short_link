@@ -1,0 +1,7 @@
+time="2025-10-26 17:06:40" level=error msg="RPC call failed" duration=0s error="password not match" method=/User.UserService/Register
+time="2025-10-26 17:07:08" level=info msg="RPC call succeeded" duration=24.5978ms method=/User.UserService/Register
+time="2025-10-26 17:13:09" level=info msg="RPC call succeeded" duration=0s method=/User.UserService/Register
+time="2025-10-26 17:13:15" level=info msg="RPC call succeeded" duration=36.8281ms method=/User.UserService/Register
+time="2025-10-26 17:13:23" level=info msg="RPC call succeeded" duration=4.3911ms method=/User.UserService/Register
+time="2025-10-26 17:16:05" level=info msg="RPC call succeeded" duration=19.4232ms method=/User.UserService/Login
+time="2025-10-26 17:16:12" level=error msg="RPC call failed" duration=4.1666ms error="ERROR RECORD NOT FOUND!" method=/User.UserService/Login
