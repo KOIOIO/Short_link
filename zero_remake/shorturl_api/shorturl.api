@@ -24,6 +24,28 @@ type (
 	}
 )
 
+type (
+	UserLoginRequest{
+
+	}
+
+	UserLoginResponse{
+
+	}
+
+	UserRegisterRequset{
+
+	}
+
+	UserRegisterResponse{
+
+	}
+)
+
+@server(
+	jwt:Auth
+)
+
 service shorturl-api {
 	@handler Generate
 	post /generate (GenerateRequest) returns (GenerateResponse)

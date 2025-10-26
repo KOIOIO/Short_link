@@ -21,6 +21,9 @@ const (
 
 	//Limit
 	ERROR_RATE_LIMIT = 5001
+
+	ERROR_FAIL_TO_LOGIN    = 6001
+	ERROR_FAIL_TO_REGISTER = 6002
 )
 
 var errmsg = map[int]string{
@@ -33,6 +36,8 @@ var errmsg = map[int]string{
 	ERROR_EXPIRATION_ID_WRONG:     "过期时间错误",
 	ERROR_FAILED_TO_SAVE_TO_MYSQL: "MYSQL中保存失败",
 	ERROR_RATE_LIMIT:              "请求过于频繁，请稍后再试",
+	ERROR_FAIL_TO_REGISTER:        "注册失败",
+	ERROR_FAIL_TO_LOGIN:           "登录失败",
 }
 
 func GetErrMsg(code int) string {

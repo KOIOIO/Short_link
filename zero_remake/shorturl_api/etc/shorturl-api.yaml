@@ -7,4 +7,7 @@ ShortUrlRpc:
       - 127.0.0.1:2379
     Key: shorturl.rpc
 log:
-  path: log/log
+  path: loger/log
+Auth: 
+    AccessKey: "fdsdkfjhdfsdkfcv"
+    AccessExpiration: 3600

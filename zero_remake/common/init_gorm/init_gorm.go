@@ -34,7 +34,7 @@ func Init_gorm(Dns string) *gorm.DB {
 
 	// 迁移数据表，在没有数据表结构变更时候，建议注释不执行
 	// 注意:初次运行后可注销此行
-	_ = Db.AutoMigrate(&models.Shorturl{})
+	_ = Db.AutoMigrate(&models.Shorturl{}, &models.Usermodel{})
 
 	// 获取底层sql.DB对象
 	sqlDB, _ := Db.DB()
