@@ -44,7 +44,7 @@ func (l *LoginLogic) Login(in *User.LoginRequest) (*User.LoginResponse, error) {
 	}
 
 	return &User.LoginResponse{
-		Code:    0,
+		Code:    200,
 		Message: "success",
 	}, nil
 }

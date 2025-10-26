@@ -23,3 +23,25 @@ type RedirectResponse struct {
 	OringinalUrl string `json:"original_url"` // 原始URL
 	Message      string `json:"message"`      // 消息
 }
+
+type UserLoginRequest struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
+type UserLoginResponse struct {
+	Code        int    `json:"code"`
+	Message     string `json:"message"`
+	AccessToken string `json:"access_token"`
+	ExpiresIn   int64  `json:"expires_in"`
+}
+
+type UserRegisterRequset struct {
+	Username        string `json:"username"`
+	Password        string `json:"password"`
+	ConfirmPassword string `json:"confirm_password"`
+}
+
+type UserRegisterResponse struct {
+	Code int `json:"code"`
+}

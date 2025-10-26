@@ -6,8 +6,14 @@ ShortUrlRpc:
     Hosts:
       - 127.0.0.1:2379
     Key: shorturl.rpc
+
+UserRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: userrpc.rpc
 log:
   path: loger/log
-Auth: 
-    AccessKey: "fdsdkfjhdfsdkfcv"
-    AccessExpiration: 3600
+Auth:
+  AccessSecret: duerueudfnd235sdh
+  AccessExpire: 3600

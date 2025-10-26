@@ -69,7 +69,7 @@ func (l *RegisterLogic) Register(in *User.RegisterRequest) (*User.RegisterRespon
 	}
 
 	return &User.RegisterResponse{
-		Code:    0,
+		Code:    200,
 		Message: "success",
 	}, nil
 }

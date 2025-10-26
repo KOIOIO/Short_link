@@ -25,27 +25,40 @@ type (
 )
 
 type (
-	UserLoginRequest{
-
+	UserLoginRequest {
+		Username string `json:"username"`
+		Password string `json:"password"`
 	}
-
-	UserLoginResponse{
-
+	UserLoginResponse {
+		Code        int    `json:"code"`
+		Message     string `json:"message"`
+		AccessToken string `json:"access_token"`
+		ExpiresIn   int64  `json:"expires_in"`
 	}
-
-	UserRegisterRequset{
-
+	UserRegisterRequset {
+		Username        string `json:"username"`
+		Password        string `json:"password"`
+		ConfirmPassword string `json:"confirm_password"`
 	}
-
-	UserRegisterResponse{
-
+	UserRegisterResponse {
+		Code int `json:"code"`
 	}
 )
 
-@server(
-	jwt:Auth
+@server (
+	prefix: /users
 )
+service shorturl-api {
+	@handler Login
+	post /login (UserLoginRequest) returns (UserLoginResponse)
 
+	@handler Register
+	post /register (UserRegisterRequset) returns (UserRegisterResponse)
+}
+
+@server (
+	jwt: Auth
+)
 service shorturl-api {
 	@handler Generate
 	post /generate (GenerateRequest) returns (GenerateResponse)
