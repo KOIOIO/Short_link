@@ -1,0 +1,17 @@
+time="2025-10-27 17:16:38" level=info msg="RPC call succeeded" duration=135.5258ms method=/shortUrl.ShortUrl/GenerateShortUrl
+time="2025-10-27 17:17:37" level=info msg="RPC call succeeded" duration=43.5908ms method=/shortUrl.ShortUrl/FilterByMyBloomFilter
+time="2025-10-27 17:20:10" level=info msg="RPC call succeeded" duration=66.1989ms method=/shortUrl.ShortUrl/HandleShort
+time="2025-10-27 17:20:10" level=info msg="RPC call succeeded" duration=24.9378ms method=/shortUrl.ShortUrl/HandleShort
+time="2025-10-27 17:20:10" level=info msg="RPC call succeeded" duration=5.8808ms method=/shortUrl.ShortUrl/HandleShort
+time="2025-10-27 17:20:10" level=info msg="RPC call succeeded" duration=4.9203ms method=/shortUrl.ShortUrl/HandleShort
+time="2025-10-27 17:20:10" level=info msg="RPC call succeeded" duration=5.3503ms method=/shortUrl.ShortUrl/HandleShort
+time="2025-10-27 17:20:10" level=info msg="RPC call succeeded" duration=5.1935ms method=/shortUrl.ShortUrl/HandleShort
+time="2025-10-27 17:20:10" level=info msg="RPC call succeeded" duration=4.6605ms method=/shortUrl.ShortUrl/HandleShort
+time="2025-10-27 17:20:10" level=info msg="RPC call succeeded" duration=4.4377ms method=/shortUrl.ShortUrl/HandleShort
+time="2025-10-27 17:20:10" level=info msg="RPC call succeeded" duration=4.6094ms method=/shortUrl.ShortUrl/HandleShort
+time="2025-10-27 17:20:10" level=info msg="RPC call succeeded" duration=4.2684ms method=/shortUrl.ShortUrl/HandleShort
+time="2025-10-27 17:20:10" level=info msg="RPC call succeeded" duration=5.0119ms method=/shortUrl.ShortUrl/HandleShort
+time="2025-10-27 17:20:42" level=info msg="RPC call succeeded" duration=33.5183ms method=/shortUrl.ShortUrl/GenerateIDbMySnowflake
+time="2025-10-27 17:20:50" level=info msg="RPC call succeeded" duration=6.3205ms method=/shortUrl.ShortUrl/HandleShort
+time="2025-10-27 17:21:52" level=info msg="RPC call succeeded" duration=45.4249ms method=/shortUrl.ShortUrl/GenerateIDbMySnowflake
+time="2025-10-27 17:22:03" level=info msg="RPC call succeeded" duration=13.6889ms method=/shortUrl.ShortUrl/HandleShort
