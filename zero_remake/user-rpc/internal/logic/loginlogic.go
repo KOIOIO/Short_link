@@ -62,7 +62,7 @@ func (l *LoginLogic) Login(in *User.LoginRequest) (*User.LoginResponse, error) {
 func (l *LoginLogic) GetFromMysql(username string) (*models.Usermodel, error) {
 	var user models.Usermodel
 	err := l.svcCtx.DB.Where("username=?", username).First(&user).Error
-	if err == gorm.ErrRecordNotFound {
+	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, errors.New("user not found")
 	}
 	return &user, nil
