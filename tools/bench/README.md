@@ -1,4 +1,4 @@
-本目录包含一个简单的 gRPC 基准脚本 `bench_rpc.go`，用于比较两个 RPC:
+ 本目录包含一个简单的 gRPC 基准脚本 `bench_rpc.go`，用于比较两个 RPC:
 
 - `GenerateShortUrl`：使用 Redis（服务中实现）
 - `FilterByMyBloomFilter`：使用项目内存布隆实现

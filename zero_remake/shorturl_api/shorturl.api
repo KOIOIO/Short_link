@@ -45,6 +45,14 @@ type (
 	}
 )
 
+type (
+	qpsResponse {
+		Code    int     `json:"code"`
+		Message string  `json:"message"`
+		QPS     float64 `json:"qps"`
+	}
+)
+
 @server (
 	prefix: /users
 )
@@ -75,5 +83,14 @@ service shorturl-api {
 
 	@handler Redirect
 	get /:shortURL (RedirectRequest) returns (RedirectResponse)
+}
+
+@server (
+	prefix: /qps
+	jwt:    Auth
+)
+service shorturl-api {
+	@handler GetQPS
+	get /getqps (qpsResponse)
 }
 

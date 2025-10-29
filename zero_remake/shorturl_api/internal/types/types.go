@@ -45,3 +45,9 @@ type UserRegisterRequset struct {
 type UserRegisterResponse struct {
 	Code int `json:"code"`
 }
+
+type QpsResponse struct {
+	Code    int     `json:"code"`
+	Message string  `json:"message"`
+	QPS     float64 `json:"qps"`
+}
