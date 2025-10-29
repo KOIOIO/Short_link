@@ -81,7 +81,7 @@ func (l *HandleShortLogic) DeleteWithTime() error {
 
 func (l *HandleShortLogic) ReadFormMysql(url string) (*models.Shorturl, error) {
 	var shortURL models.Shorturl
-	err := l.svcCtx.DB.Where("url = ?", url).First(&shortURL).Error
+	err := l.svcCtx.DB.Where("shorturl = ?", url).First(&shortURL).Error
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, nil
