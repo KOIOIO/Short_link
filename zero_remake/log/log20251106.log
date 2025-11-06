@@ -1,0 +1,15 @@
+time="2025-11-06 18:41:50" level=info msg="RPC call succeeded" duration=80.005ms method=/shortUrl.ShortUrl/GenerateShortUrl
+time="2025-11-06 18:43:14" level=info msg="RPC call succeeded" duration=41.7218ms method=/shortUrl.ShortUrl/FilterByMyBloomFilter
+time="2025-11-06 18:43:17" level=info msg="RPC call succeeded" duration=8.119ms method=/shortUrl.ShortUrl/GenerateIDbMySnowflake
+time="2025-11-06 18:43:18" level=info msg="RPC call succeeded" duration=7.7037ms method=/shortUrl.ShortUrl/GenerateWithIPLimter
+time="2025-11-06 18:43:18" level=info msg="RPC call succeeded" duration=5.0967ms method=/shortUrl.ShortUrl/FilterByMyBloomFilter
+time="2025-11-06 18:43:19" level=info msg="RPC call succeeded" duration=5.3799ms method=/shortUrl.ShortUrl/GenerateIDbMySnowflake
+time="2025-11-06 18:43:20" level=info msg="RPC call succeeded" duration=0s method=/shortUrl.ShortUrl/GenerateWithIPLimter
+time="2025-11-06 18:43:52" level=info msg="RPC call succeeded" duration=47.0118ms method=/shortUrl.ShortUrl/GenerateShortUrl
+time="2025-11-06 18:43:53" level=info msg="RPC call succeeded" duration=4.5177ms method=/shortUrl.ShortUrl/GenerateShortUrl
+time="2025-11-06 18:43:54" level=info msg="RPC call succeeded" duration=5.9693ms method=/shortUrl.ShortUrl/GenerateShortUrl
+time="2025-11-06 18:43:54" level=info msg="RPC call succeeded" duration=3.4385ms method=/shortUrl.ShortUrl/FilterByMyBloomFilter
+time="2025-11-06 18:43:55" level=info msg="RPC call succeeded" duration=5.811ms method=/shortUrl.ShortUrl/GenerateIDbMySnowflake
+time="2025-11-06 18:43:56" level=info msg="RPC call succeeded" duration=0s method=/shortUrl.ShortUrl/GenerateWithIPLimter
+time="2025-11-06 18:45:25" level=info msg="RPC call succeeded" duration=23.6204ms method=/shortUrl.ShortUrl/HandleShort
+time="2025-11-06 18:45:30" level=info msg="RPC call succeeded" duration=4.7379ms method=/shortUrl.ShortUrl/HandleShort

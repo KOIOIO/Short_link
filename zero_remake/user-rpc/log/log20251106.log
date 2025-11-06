@@ -1,0 +1,13 @@
+time="2025-11-06 17:59:30" level=info msg="RPC call succeeded" duration=116.7994ms method=/User.UserService/Login
+time="2025-11-06 18:07:07" level=info msg="RPC call succeeded" duration=171.6516ms method=/User.UserService/Register
+time="2025-11-06 18:11:56" level=info msg="RPC call succeeded" duration=148.4859ms method=/User.UserService/Register
+time="2025-11-06 18:13:34" level=info msg="RPC call succeeded" duration=121.4554ms method=/User.UserService/Register
+time="2025-11-06 18:14:34" level=info msg="RPC call succeeded" duration=121.0866ms method=/User.UserService/Login
+time="2025-11-06 18:20:13" level=info msg="RPC call succeeded" duration=122.6536ms method=/User.UserService/Login
+time="2025-11-06 18:29:30" level=info msg="RPC call succeeded" duration=109.7325ms method=/User.UserService/Login
+time="2025-11-06 18:32:23" level=info msg="RPC call succeeded" duration=150.1858ms method=/User.UserService/Register
+time="2025-11-06 18:32:23" level=info msg="RPC call succeeded" duration=100.4226ms method=/User.UserService/Login
+time="2025-11-06 18:33:18" level=info msg="RPC call succeeded" duration=110.0264ms method=/User.UserService/Login
+time="2025-11-06 18:33:38" level=info msg="RPC call succeeded" duration=110.592ms method=/User.UserService/Login
+time="2025-11-06 18:39:27" level=info msg="RPC call succeeded" duration=143.3728ms method=/User.UserService/Register
+time="2025-11-06 18:39:27" level=info msg="RPC call succeeded" duration=103.6532ms method=/User.UserService/Login

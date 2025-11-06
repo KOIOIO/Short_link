@@ -1,139 +1,23 @@
 <template>
-  <div class="container">
-    <h1 class="fade-in">🔗 <span class="highlight">短链接生成器</span></h1>
-  <form @submit.prevent="generateShortURL" class="form fade-in">
-      <div class="form-group">
-        <label>原始链接:</label>
-        <input v-model="url" type="text" required placeholder="请输入原始链接..." />
+  <div>
+    <div v-if="!isAuthPage" class="topbar glass">
+      <router-link to="/" class="brand">短链接生成器</router-link>
+      <div class="menu" v-if="!isAuthed">
+        <router-link to="/login">登录</router-link>
+        <router-link to="/register">注册</router-link>
       </div>
-      <div class="form-group">
-        <label>过期时间:</label>
-        <select v-model="expiration">
-          <option value="30m">30 分钟</option>
-          <option value="1h">1 小时</option>
-          <option value="1d">1 天</option>
-        </select>
-      </div>
-      <button type="submit" :disabled="loading">
-        {{ loading ? '生成中...' : '✨ 生成短链接' }}
-      </button>
-      <div class="alt-actions">
-        <button type="button" class="small" @click="generateBySnowflake" :disabled="loading">生成（雪花ID）</button>
-        <button type="button" class="small" @click="generateByBloom" :disabled="loading">生成（我的布隆）</button>
-        <button type="button" class="small" @click="generateWithIPLimiter" :disabled="loading">生成（IP 限流）</button>
-      </div>
-    </form>
-
-    <transition name="bounce">
-      <div v-if="shortUrl" class="result fade-in">
-        <p>生成成功：<a :href="shortUrl" target="_blank">{{ shortUrl }}</a></p>
-      </div>
-    </transition>
+    </div>
+    <router-view />
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import axios from 'axios'
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+import { isAuthed } from './api/auth'
 
-const url = ref('')
-const expiration = ref('1h')
-const shortUrl = ref('')
-const loading = ref(false)
-
-const generateShortURL = async () => {
-  loading.value = true
-  try {
-    const response = await axios.post('http://localhost:8080/generate', {
-      url: url.value,
-      expiration: expiration.value,
-    }, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      transformRequest: [(data) => {
-        return Object.entries(data).map(([key, val]) => `${encodeURIComponent(key)}=${encodeURIComponent(val)}`).join('&')
-      }]
-    })
-
-    shortUrl.value = `http://localhost:8080/${response.data.short_url}`
-  } catch (error) {
-    let isRateLimited = false
-    // 兼容后端 HTTP 500 且 code 字段不存在的情况
-    if (error.response) {
-      const data = error.response.data
-      // code 字段优先判断
-      if (data && String(data.code) === '5001') {
-        alert('为防止数据库崩溃，请半个小时后再生成')
-        isRateLimited = true
-      } else if (error.response.status === 500 && error.response.statusText === 'Internal Server Error') {
-        // 兼容后端直接返回500错误
-        alert('为防止数据库崩溃，请半个小时后再生成')
-        isRateLimited = true
-      } else if (typeof data === 'string' && data.includes('rate limit')) {
-        // 兼容后端直接返回字符串错误
-        alert('为防止数据库崩溃，请半个小时后再生成')
-        isRateLimited = true
-      }
-    }
-    if (!isRateLimited) {
-      alert('生成失败，请检查输入！')
-    }
-  } finally {
-    loading.value = false
-  }
-}
-
-const postTo = async (path) => {
-  loading.value = true
-  try {
-    const response = await axios.post(`http://localhost:8080/${path}`, {
-      url: url.value,
-      expiration: expiration.value,
-    }, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      transformRequest: [(data) => {
-        return Object.entries(data).map(([key, val]) => `${encodeURIComponent(key)}=${encodeURIComponent(val)}`).join('&')
-      }]
-    })
-
-    shortUrl.value = `http://localhost:8080/${response.data.short_url}`
-  } catch (error) {
-    let isRateLimited = false
-    if (error.response) {
-      const data = error.response.data
-      if (data && String(data.code) === '5001') {
-        alert('为防止数据库崩溃，请半个小时后再生成')
-        isRateLimited = true
-      } else if (error.response.status === 500 && error.response.statusText === 'Internal Server Error') {
-        alert('为防止数据库崩溃，请半个小时后再生成')
-        isRateLimited = true
-      } else if (typeof data === 'string' && data.includes('rate limit')) {
-        alert('为防止数据库崩溃，请半个小时后再生成')
-        isRateLimited = true
-      }
-    }
-    if (!isRateLimited) {
-      alert('生成失败，请检查输入！')
-    }
-  } finally {
-    loading.value = false
-  }
-}
-
-const generateBySnowflake = async () => {
-  await postTo('generatebymysnowflake')
-}
-
-const generateByBloom = async () => {
-  await postTo('filterbymybloomfilter')
-}
-
-const generateWithIPLimiter = async () => {
-  await postTo('generatewithiplimiter')
-}
+const route = useRoute()
+const isAuthPage = computed(() => route.path === '/login' || route.path === '/register')
 </script>
 
 <style scoped>
@@ -170,18 +54,9 @@ const generateWithIPLimiter = async () => {
   background: linear-gradient(120deg, #f9d423 0%, #ff4e50 100%);
 }
 
-.container {
-  max-width: 500px;
-  margin: 60px auto;
-  font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #f9d423 0%, #ff4e50 100%);
-  padding: 36px 32px 32px 32px;
-  border-radius: 18px;
-  box-shadow: 0 12px 32px rgba(255, 78, 80, 0.18), 0 2px 4px rgba(0,0,0,0.08);
-  border: 2px solid #ff4e50;
-  position: relative;
-  z-index: 2;
-}
+.topbar { display:flex; align-items:center; justify-content:space-between; padding: 12px 18px; background: #fff; border-bottom: 1px solid #eee; }
+.brand { font-weight: bold; color: #ff4e50; text-decoration: none; }
+.menu a { margin-left: 10px; color: #333; text-decoration: none; }
 
 h1 {
   text-align: center;
@@ -314,4 +189,10 @@ button:hover:enabled {
 .result a:hover {
   color: #f9d423;
 }
+
+/* 科技感增强 */
+.glass { background: rgba(17, 25, 40, 0.45); backdrop-filter: blur(12px); }
+.brand { background: linear-gradient(90deg, #63a4ff 0%, #83eaf1 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.menu a { margin-left: 12px; color: #e6edf7; text-decoration: none; padding: 6px 10px; border-radius: 8px; transition: transform .2s, background .3s; }
+.menu a:hover { transform: translateY(-2px); background: rgba(255,255,255,0.08); }
 </style>

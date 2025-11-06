@@ -12,22 +12,33 @@ import (
 )
 
 func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
-	server.AddRoutes(
-		[]rest.Route{
-			{
-				Method:  http.MethodPost,
-				Path:    "/login",
-				Handler: LoginHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/register",
-				Handler: RegisterHandler(serverCtx),
-			},
-		},
-		rest.WithPrefix("/users"),
-	)
+    server.AddRoutes(
+        []rest.Route{
+            {
+                Method:  http.MethodOptions,
+                Path:    "/register",
+                Handler: PreflightHandler(),
+            },
+            {
+                Method:  http.MethodOptions,
+                Path:    "/login",
+                Handler: PreflightHandler(),
+            },
+            {
+                Method:  http.MethodPost,
+                Path:    "/login",
+                Handler: LoginHandler(serverCtx),
+            },
+            {
+                Method:  http.MethodPost,
+                Path:    "/register",
+                Handler: RegisterHandler(serverCtx),
+            },
+        },
+        rest.WithPrefix("/users"),
+    )
 
+	// 短链跳转不需要 JWT，单独注册不带 Jwt 的组
 	server.AddRoutes(
 		[]rest.Route{
 			{
@@ -35,6 +46,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/:shortURL",
 				Handler: RedirectHandler(serverCtx),
 			},
+		},
+		rest.WithPrefix("/shorturls"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
 			{
 				Method:  http.MethodPost,
 				Path:    "/filterbymybloomfilter",
@@ -57,6 +74,17 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 		},
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/shorturls"),
+	)
+
+	// OPTIONS 预检路由不应经过 JWT，单独注册在不带 Jwt 的组里
+	server.AddRoutes(
+		[]rest.Route{
+			{Method: http.MethodOptions, Path: "/filterbymybloomfilter", Handler: PreflightHandler()},
+			{Method: http.MethodOptions, Path: "/generate", Handler: PreflightHandler()},
+			{Method: http.MethodOptions, Path: "/generatebymysnowflake", Handler: PreflightHandler()},
+			{Method: http.MethodOptions, Path: "/generatewithiplimiter", Handler: PreflightHandler()},
+		},
 		rest.WithPrefix("/shorturls"),
 	)
 

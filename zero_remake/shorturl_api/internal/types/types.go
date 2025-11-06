@@ -4,8 +4,8 @@
 package types
 
 type GenerateRequest struct {
-	Url        string `form:"url"`        // 原始URL
-	Expiration string `form:"expiration"` // 过期时间，例如 "1h", "30m", "1d"
+    Url        string `json:"url"`        // 原始URL
+    Expiration string `json:"expiration"` // 过期时间，例如 "1h", "30m", "1d"
 }
 
 type GenerateResponse struct {

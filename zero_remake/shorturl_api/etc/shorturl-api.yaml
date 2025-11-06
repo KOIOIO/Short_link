@@ -2,16 +2,12 @@ Name: shorturl-api
 Host: 0.0.0.0
 Port: 8080
 ShortUrlRpc:
-  Etcd:
-    Hosts:
-      - 127.0.0.1:2379
-    Key: shorturl.rpc
+  Endpoints:
+    - 127.0.0.1:8888
 
 UserRpc:
-  Etcd:
-    Hosts:
-      - 127.0.0.1:2379
-    Key: userrpc.rpc
+  Endpoints:
+    - 127.0.0.1:8082
 log:
   path: loger/log
 Auth:

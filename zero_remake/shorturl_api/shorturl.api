@@ -1,11 +1,11 @@
 syntax = "v1"
 
 type (
-	// 生成短链接请求
-	GenerateRequest {
-		Url        string `form:"url"` // 原始URL
-		Expiration string `form:"expiration"` // 过期时间，例如 "1h", "30m", "1d"
-	}
+    // 生成短链接请求
+    GenerateRequest {
+        Url        string `json:"url"` // 原始URL
+        Expiration string `json:"expiration"` // 过期时间，例如 "1h", "30m", "1d"
+    }
 	// 生成短链接响应
 	GenerateResponse {
 		Code     int    `json:"code"` // 状态码
