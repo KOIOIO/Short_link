@@ -5,13 +5,13 @@ import (
 	"errors"
 	"time"
 
-	"example.com/shorturl/short-url/zero_remake/common/errmsg"
-	"example.com/shorturl/short-url/zero_remake/models"
-	"example.com/shorturl/short-url/zero_remake/shorturl_rpc/internal/logic/repository"
+	"github.com/shorturl/short-url/zero_remake/common/errmsg"
+	"github.com/shorturl/short-url/zero_remake/models"
+	"github.com/shorturl/short-url/zero_remake/shorturl_rpc/internal/logic/repository"
 	"gorm.io/gorm"
 
-	"example.com/shorturl/short-url/zero_remake/shorturl_rpc/internal/svc"
-	"example.com/shorturl/short-url/zero_remake/shorturl_rpc/types/shortUrl"
+	"github.com/shorturl/short-url/zero_remake/shorturl_rpc/internal/svc"
+	"github.com/shorturl/short-url/zero_remake/shorturl_rpc/types/shortUrl"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )

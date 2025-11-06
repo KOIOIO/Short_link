@@ -7,7 +7,7 @@ package userservice
 import (
 	"context"
 
-	"example.com/shorturl/short-url/zero_remake/user-rpc/types/User"
+	"github.com/shorturl/short-url/zero_remake/user-rpc/types/User"
 
 	"github.com/zeromicro/go-zero/zrpc"
 	"google.golang.org/grpc"

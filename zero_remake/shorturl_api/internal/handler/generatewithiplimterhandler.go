@@ -1,12 +1,12 @@
 package handler
 
 import (
-	"net/http"
+    "net/http"
 
-	"example.com/shorturl/short-url/zero_remake/shorturl_api/internal/logic"
-	"example.com/shorturl/short-url/zero_remake/shorturl_api/internal/svc"
-	"example.com/shorturl/short-url/zero_remake/shorturl_api/internal/types"
-	"github.com/zeromicro/go-zero/rest/httpx"
+    "github.com/shorturl/short-url/zero_remake/shorturl_api/internal/logic"
+    "github.com/shorturl/short-url/zero_remake/shorturl_api/internal/svc"
+    "github.com/shorturl/short-url/zero_remake/shorturl_api/internal/types"
+    "github.com/zeromicro/go-zero/rest/httpx"
 )
 
 func GenerateWithIPLimterHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {

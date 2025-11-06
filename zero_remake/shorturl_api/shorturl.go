@@ -1,15 +1,15 @@
 package main
 
 import (
-	"example.com/shorturl/short-url/zero_remake/middleware"
-	"example.com/shorturl/short-url/zero_remake/shorturl_api/internal/config"
-	"example.com/shorturl/short-url/zero_remake/shorturl_api/internal/handler"
-	"example.com/shorturl/short-url/zero_remake/shorturl_api/internal/svc"
-	"flag"
-	"fmt"
+    "github.com/shorturl/short-url/zero_remake/middleware"
+    "github.com/shorturl/short-url/zero_remake/shorturl_api/internal/config"
+    "github.com/shorturl/short-url/zero_remake/shorturl_api/internal/handler"
+    "github.com/shorturl/short-url/zero_remake/shorturl_api/internal/svc"
+    "flag"
+    "fmt"
 
-	"github.com/zeromicro/go-zero/core/conf"
-	"github.com/zeromicro/go-zero/rest"
+    "github.com/zeromicro/go-zero/core/conf"
+    "github.com/zeromicro/go-zero/rest"
 )
 
 var configFile = flag.String("f", "etc/shorturl-api.yaml", "the config file")

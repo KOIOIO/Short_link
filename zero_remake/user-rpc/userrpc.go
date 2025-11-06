@@ -1,14 +1,15 @@
 package main
 
 import (
-	"example.com/shorturl/short-url/zero_remake/middleware"
 	"flag"
 	"fmt"
 
-	"example.com/shorturl/short-url/zero_remake/user-rpc/internal/config"
-	"example.com/shorturl/short-url/zero_remake/user-rpc/internal/server"
-	"example.com/shorturl/short-url/zero_remake/user-rpc/internal/svc"
-	"example.com/shorturl/short-url/zero_remake/user-rpc/types/User"
+	"github.com/shorturl/short-url/zero_remake/middleware"
+
+	"github.com/shorturl/short-url/zero_remake/user-rpc/internal/config"
+	"github.com/shorturl/short-url/zero_remake/user-rpc/internal/server"
+	"github.com/shorturl/short-url/zero_remake/user-rpc/internal/svc"
+	"github.com/shorturl/short-url/zero_remake/user-rpc/types/User"
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/service"

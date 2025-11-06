@@ -1,19 +1,19 @@
 package logic
 
 import (
-	"context"
-	"errors"
-	"net/http"
+    "context"
+    "errors"
+    "net/http"
 
-	"example.com/shorturl/short-url/zero_remake/common/errmsg"
-	"example.com/shorturl/short-url/zero_remake/shorturl_rpc/types/shortUrl"
+    "github.com/shorturl/short-url/zero_remake/common/errmsg"
+    "github.com/shorturl/short-url/zero_remake/shorturl_rpc/types/shortUrl"
 
-	"strings"
+    "strings"
 
-	"example.com/shorturl/short-url/zero_remake/shorturl_api/internal/svc"
-	"example.com/shorturl/short-url/zero_remake/shorturl_api/internal/types"
+    "github.com/shorturl/short-url/zero_remake/shorturl_api/internal/svc"
+    "github.com/shorturl/short-url/zero_remake/shorturl_api/internal/types"
 
-	"github.com/zeromicro/go-zero/core/logx"
+    "github.com/zeromicro/go-zero/core/logx"
 )
 
 type GenerateLogic struct {

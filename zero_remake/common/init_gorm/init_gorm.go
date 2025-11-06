@@ -1,13 +1,13 @@
 package init_gorm
 
 import (
-	"example.com/shorturl/short-url/zero_remake/common/errmsg"
-	"example.com/shorturl/short-url/zero_remake/models"
-	"fmt"
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
-	"gorm.io/gorm/schema"
+    "github.com/shorturl/short-url/zero_remake/common/errmsg"
+    "github.com/shorturl/short-url/zero_remake/models"
+    "fmt"
+    "gorm.io/driver/mysql"
+    "gorm.io/gorm"
+    "gorm.io/gorm/logger"
+    "gorm.io/gorm/schema"
 	"os"
 	"time"
 )

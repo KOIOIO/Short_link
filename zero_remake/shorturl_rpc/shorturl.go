@@ -1,24 +1,24 @@
 package main
 
 import (
-	"flag"
-	"fmt"
+    "flag"
+    "fmt"
 
-	"example.com/shorturl/short-url/zero_remake/middleware"
+    "github.com/shorturl/short-url/zero_remake/middleware"
 
-	"example.com/shorturl/short-url/zero_remake/shorturl_rpc/internal/config"
-	"example.com/shorturl/short-url/zero_remake/shorturl_rpc/internal/server"
-	"example.com/shorturl/short-url/zero_remake/shorturl_rpc/internal/svc"
-	"example.com/shorturl/short-url/zero_remake/shorturl_rpc/types/shortUrl"
+    "github.com/shorturl/short-url/zero_remake/shorturl_rpc/internal/config"
+    "github.com/shorturl/short-url/zero_remake/shorturl_rpc/internal/server"
+    "github.com/shorturl/short-url/zero_remake/shorturl_rpc/internal/svc"
+    "github.com/shorturl/short-url/zero_remake/shorturl_rpc/types/shortUrl"
 
-	"github.com/zeromicro/go-zero/core/conf"
-	"github.com/zeromicro/go-zero/core/service"
-	"github.com/zeromicro/go-zero/zrpc"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/reflection"
+    "github.com/zeromicro/go-zero/core/conf"
+    "github.com/zeromicro/go-zero/core/service"
+    "github.com/zeromicro/go-zero/zrpc"
+    "google.golang.org/grpc"
+    "google.golang.org/grpc/reflection"
 )
 
-var configFile = flag.String("f", "D:\\shorturl\\short-url\\zero_remake\\shorturl_rpc\\etc\\shorturl.yaml", "the config file")
+var configFile = flag.String("f", "etc/shorturl.yaml", "the config file")
 
 func main() {
 	flag.Parse()

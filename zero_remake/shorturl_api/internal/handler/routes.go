@@ -4,11 +4,11 @@
 package handler
 
 import (
-	"net/http"
+    "net/http"
 
-	"example.com/shorturl/short-url/zero_remake/shorturl_api/internal/svc"
+    "github.com/shorturl/short-url/zero_remake/shorturl_api/internal/svc"
 
-	"github.com/zeromicro/go-zero/rest"
+    "github.com/zeromicro/go-zero/rest"
 )
 
 func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
@@ -60,15 +60,4 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		rest.WithPrefix("/shorturls"),
 	)
 
-	server.AddRoutes(
-		[]rest.Route{
-			{
-				Method:  http.MethodGet,
-				Path:    "/getqps",
-				Handler: GetQPSHandler(serverCtx),
-			},
-		},
-		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
-		rest.WithPrefix("/qps"),
-	)
 }

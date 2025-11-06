@@ -5,11 +5,11 @@
 package server
 
 import (
-	"context"
+    "context"
 
-	"example.com/shorturl/short-url/zero_remake/shorturl_rpc/internal/logic"
-	"example.com/shorturl/short-url/zero_remake/shorturl_rpc/internal/svc"
-	"example.com/shorturl/short-url/zero_remake/shorturl_rpc/types/shortUrl"
+    "github.com/shorturl/short-url/zero_remake/shorturl_rpc/internal/logic"
+    "github.com/shorturl/short-url/zero_remake/shorturl_rpc/internal/svc"
+    "github.com/shorturl/short-url/zero_remake/shorturl_rpc/types/shortUrl"
 )
 
 type ShortUrlServer struct {

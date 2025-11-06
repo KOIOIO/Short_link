@@ -1,10 +1,10 @@
 package svc
 
 import (
-	"example.com/shorturl/short-url/zero_remake/common/init_gorm"
-	"example.com/shorturl/short-url/zero_remake/user-rpc/internal/config"
-	"fmt"
-	"gorm.io/gorm"
+    "github.com/shorturl/short-url/zero_remake/common/init_gorm"
+    "github.com/shorturl/short-url/zero_remake/user-rpc/internal/config"
+    "fmt"
+    "gorm.io/gorm"
 )
 
 type ServiceContext struct {

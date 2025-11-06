@@ -5,11 +5,11 @@
 package server
 
 import (
-	"context"
+    "context"
 
-	"example.com/shorturl/short-url/zero_remake/user-rpc/internal/logic"
-	"example.com/shorturl/short-url/zero_remake/user-rpc/internal/svc"
-	"example.com/shorturl/short-url/zero_remake/user-rpc/types/User"
+    "github.com/shorturl/short-url/zero_remake/user-rpc/internal/logic"
+    "github.com/shorturl/short-url/zero_remake/user-rpc/internal/svc"
+    "github.com/shorturl/short-url/zero_remake/user-rpc/types/User"
 )
 
 type UserServiceServer struct {

@@ -1,15 +1,15 @@
 package logic
 
 import (
-	"context"
-	"errors"
-	"example.com/shorturl/short-url/zero_remake/user-rpc/types/User"
-	"strings"
+    "context"
+    "errors"
+    "github.com/shorturl/short-url/zero_remake/user-rpc/types/User"
+    "strings"
 
-	"example.com/shorturl/short-url/zero_remake/shorturl_api/internal/svc"
-	"example.com/shorturl/short-url/zero_remake/shorturl_api/internal/types"
+    "github.com/shorturl/short-url/zero_remake/shorturl_api/internal/svc"
+    "github.com/shorturl/short-url/zero_remake/shorturl_api/internal/types"
 
-	"github.com/zeromicro/go-zero/core/logx"
+    "github.com/zeromicro/go-zero/core/logx"
 )
 
 type RegisterLogic struct {

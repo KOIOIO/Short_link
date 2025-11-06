@@ -1,10 +1,10 @@
 package svc
 
 import (
-	"example.com/shorturl/short-url/zero_remake/shorturl_api/internal/config"
-	"example.com/shorturl/short-url/zero_remake/shorturl_rpc/shorturlclient"
-	"example.com/shorturl/short-url/zero_remake/user-rpc/userservice"
-	"github.com/zeromicro/go-zero/zrpc"
+    "github.com/shorturl/short-url/zero_remake/shorturl_api/internal/config"
+    "github.com/shorturl/short-url/zero_remake/shorturl_rpc/shorturlclient"
+    "github.com/shorturl/short-url/zero_remake/user-rpc/userservice"
+    "github.com/zeromicro/go-zero/zrpc"
 )
 
 type ServiceContext struct {

@@ -3,17 +3,15 @@ package logic
 import (
 	"context"
 	"errors"
+	"github.com/shorturl/short-url/zero_remake/common/errmsg"
+	"github.com/shorturl/short-url/zero_remake/models"
+	limite_processer "github.com/shorturl/short-url/zero_remake/shorturl_rpc/internal/logic/limit_processer"
+	"github.com/shorturl/short-url/zero_remake/shorturl_rpc/internal/logic/repository"
+	"github.com/shorturl/short-url/zero_remake/shorturl_rpc/internal/svc"
+	"github.com/shorturl/short-url/zero_remake/shorturl_rpc/types/shortUrl"
+	"gorm.io/gorm"
 	"time"
 
-	"example.com/shorturl/short-url/zero_remake/common/errmsg"
-	"example.com/shorturl/short-url/zero_remake/models"
-	"example.com/shorturl/short-url/zero_remake/shorturl_rpc/internal/logic/repository"
-	"gorm.io/gorm"
-
-	"example.com/shorturl/short-url/zero_remake/shorturl_rpc/internal/svc"
-	"example.com/shorturl/short-url/zero_remake/shorturl_rpc/types/shortUrl"
-
-	limite_processer "example.com/shorturl/short-url/zero_remake/shorturl_rpc/internal/logic/limit_processer"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 

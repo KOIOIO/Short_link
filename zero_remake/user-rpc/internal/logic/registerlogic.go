@@ -3,14 +3,13 @@ package logic
 import (
 	"context"
 	"errors"
-	"example.com/shorturl/short-url/zero_remake/common/errmsg"
-	"example.com/shorturl/short-url/zero_remake/models"
-	"example.com/shorturl/short-url/zero_remake/user-rpc/internal/svc"
-	"example.com/shorturl/short-url/zero_remake/user-rpc/types/User"
+	"github.com/shorturl/short-url/zero_remake/common/errmsg"
+	"github.com/shorturl/short-url/zero_remake/models"
+	"github.com/shorturl/short-url/zero_remake/user-rpc/internal/svc"
+	"github.com/shorturl/short-url/zero_remake/user-rpc/types/User"
+	"github.com/zeromicro/go-zero/core/logx"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
-
-	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type RegisterLogic struct {

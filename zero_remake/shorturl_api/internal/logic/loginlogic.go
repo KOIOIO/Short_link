@@ -1,15 +1,15 @@
 package logic
 
 import (
-	"context"
-	"errors"
-	jwts "example.com/shorturl/short-url/zero_remake/common/Auth"
-	"example.com/shorturl/short-url/zero_remake/shorturl_api/internal/svc"
-	"example.com/shorturl/short-url/zero_remake/shorturl_api/internal/types"
-	"example.com/shorturl/short-url/zero_remake/user-rpc/types/User"
-	"strings"
+    "context"
+    "errors"
+    jwts "github.com/shorturl/short-url/zero_remake/common/Auth"
+    "github.com/shorturl/short-url/zero_remake/shorturl_api/internal/svc"
+    "github.com/shorturl/short-url/zero_remake/shorturl_api/internal/types"
+    "github.com/shorturl/short-url/zero_remake/user-rpc/types/User"
+    "strings"
 
-	"github.com/zeromicro/go-zero/core/logx"
+    "github.com/zeromicro/go-zero/core/logx"
 )
 
 type LoginLogic struct {

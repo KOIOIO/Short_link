@@ -5,12 +5,12 @@
 package shorturlclient
 
 import (
-	"context"
+    "context"
 
-	"example.com/shorturl/short-url/zero_remake/shorturl_rpc/types/shortUrl"
+    "github.com/shorturl/short-url/zero_remake/shorturl_rpc/types/shortUrl"
 
-	"github.com/zeromicro/go-zero/zrpc"
-	"google.golang.org/grpc"
+    "github.com/zeromicro/go-zero/zrpc"
+    "google.golang.org/grpc"
 )
 
 type (
