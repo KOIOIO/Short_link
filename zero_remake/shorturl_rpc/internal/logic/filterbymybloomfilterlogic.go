@@ -1,19 +1,21 @@
 package logic
 
 import (
-	"context"
-	"errors"
-	"time"
+    "context"
+    "crypto/sha1"
+    "errors"
+    "fmt"
+    "time"
 
-	"github.com/shorturl/short-url/zero_remake/common/errmsg"
-	"github.com/shorturl/short-url/zero_remake/models"
-	"github.com/shorturl/short-url/zero_remake/shorturl_rpc/internal/logic/repository"
-	"gorm.io/gorm"
+    "github.com/shorturl/short-url/zero_remake/common/errmsg"
+    "github.com/shorturl/short-url/zero_remake/models"
+    "github.com/shorturl/short-url/zero_remake/shorturl_rpc/internal/logic/repository"
+    "gorm.io/gorm"
 
-	"github.com/shorturl/short-url/zero_remake/shorturl_rpc/internal/svc"
-	"github.com/shorturl/short-url/zero_remake/shorturl_rpc/types/shortUrl"
+    "github.com/shorturl/short-url/zero_remake/shorturl_rpc/internal/svc"
+    "github.com/shorturl/short-url/zero_remake/shorturl_rpc/types/shortUrl"
 
-	"github.com/zeromicro/go-zero/core/logx"
+    "github.com/zeromicro/go-zero/core/logx"
 )
 
 type FilterByMyBloomFilterLogic struct {
@@ -31,12 +33,35 @@ func NewFilterByMyBloomFilterLogic(ctx context.Context, svcCtx *svc.ServiceConte
 }
 
 func (l *FilterByMyBloomFilterLogic) FilterByMyBloomFilter(in *shortUrl.GenerateShortUrlRequest) (*shortUrl.GenerateShortUrlResponse, error) {
-	if in.Url == "" {
-		return &shortUrl.GenerateShortUrlResponse{
-			Code:      errmsg.ERROR_URL_IS_NULL,
-			Shortcode: "",
-		}, errors.New("url is null")
-	}
+    if in.Url == "" {
+        return &shortUrl.GenerateShortUrlResponse{
+            Code:      errmsg.ERROR_URL_IS_NULL,
+            Shortcode: "",
+        }, errors.New("url is null")
+    }
+
+    // Redis分布式锁，按URL维度串行化生成流程
+    lockKey := fmt.Sprintf("shorturl:lock:gen:%x", sha1.Sum([]byte(in.Url)))
+    lockVal := fmt.Sprintf("%d", time.Now().UnixNano())
+    acquired := false
+    for i := 0; i < 10; i++ {
+        ok, err := l.svcCtx.Redis.Rdb.SetNX(l.svcCtx.Redis.Ctx, lockKey, lockVal, 5*time.Second).Result()
+        if err != nil {
+            return &shortUrl.GenerateShortUrlResponse{Code: errmsg.ERROR, Shortcode: ""}, errors.New("lock acquire failed")
+        }
+        if ok {
+            acquired = true
+            break
+        }
+        time.Sleep(100 * time.Millisecond)
+    }
+    if !acquired {
+        return &shortUrl.GenerateShortUrlResponse{Code: errmsg.ERROR, Shortcode: ""}, errors.New("system busy, please retry")
+    }
+    defer func() {
+        const unlockScript = `if redis.call("get", KEYS[1]) == ARGV[1] then return redis.call("del", KEYS[1]) else return 0 end`
+        _ = l.svcCtx.Redis.Rdb.Eval(l.svcCtx.Redis.Ctx, unlockScript, []string{lockKey}, lockVal).Err()
+    }()
 
 	// 先用布隆过滤器检查URL是否存在
 	// 如果存在，则直接从MySQL中读取短链

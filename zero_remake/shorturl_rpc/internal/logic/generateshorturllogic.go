@@ -1,20 +1,22 @@
 package logic
 
 import (
-	"context"
-	"errors"
-	"strconv"
-	"strings"
-	"time"
+    "context"
+    "crypto/sha1"
+    "errors"
+    "fmt"
+    "strconv"
+    "strings"
+    "time"
 
-	"github.com/shorturl/short-url/zero_remake/common/errmsg"
-	"github.com/shorturl/short-url/zero_remake/models"
-	"github.com/shorturl/short-url/zero_remake/shorturl_rpc/internal/logic/repository"
-	"github.com/shorturl/short-url/zero_remake/shorturl_rpc/internal/svc"
-	"github.com/shorturl/short-url/zero_remake/shorturl_rpc/types/shortUrl"
-	"gorm.io/gorm"
+    "github.com/shorturl/short-url/zero_remake/common/errmsg"
+    "github.com/shorturl/short-url/zero_remake/models"
+    "github.com/shorturl/short-url/zero_remake/shorturl_rpc/internal/logic/repository"
+    "github.com/shorturl/short-url/zero_remake/shorturl_rpc/internal/svc"
+    "github.com/shorturl/short-url/zero_remake/shorturl_rpc/types/shortUrl"
+    "gorm.io/gorm"
 
-	"github.com/zeromicro/go-zero/core/logx"
+    "github.com/zeromicro/go-zero/core/logx"
 )
 
 type GenerateShortUrlLogic struct {
@@ -43,12 +45,36 @@ func (l *GenerateShortUrlLogic) GenerateShortUrl(in *shortUrl.GenerateShortUrlRe
 	// 	}, errors.New("rate limit exceeded")
 	// }
 
-	if in.Url == "" {
-		return &shortUrl.GenerateShortUrlResponse{
-			Code:      errmsg.ERROR_URL_IS_NULL,
-			Shortcode: "",
-		}, errors.New("url is null")
-	}
+    if in.Url == "" {
+        return &shortUrl.GenerateShortUrlResponse{
+            Code:      errmsg.ERROR_URL_IS_NULL,
+            Shortcode: "",
+        }, errors.New("url is null")
+    }
+
+    // 基于Redis的分布式锁，按URL维度防止并发插入造成唯一索引冲突
+    lockKey := fmt.Sprintf("shorturl:lock:gen:%x", sha1.Sum([]byte(in.Url)))
+    lockVal := fmt.Sprintf("%d", time.Now().UnixNano())
+    acquired := false
+    for i := 0; i < 10; i++ { // 最长等待约1秒
+        ok, err := l.svcCtx.Redis.Rdb.SetNX(l.svcCtx.Redis.Ctx, lockKey, lockVal, 5*time.Second).Result()
+        if err != nil {
+            return &shortUrl.GenerateShortUrlResponse{Code: errmsg.ERROR, Shortcode: ""}, errors.New("lock acquire failed")
+        }
+        if ok {
+            acquired = true
+            break
+        }
+        time.Sleep(100 * time.Millisecond)
+    }
+    if !acquired {
+        return &shortUrl.GenerateShortUrlResponse{Code: errmsg.ERROR, Shortcode: ""}, errors.New("system busy, please retry")
+    }
+    defer func() {
+        // 仅当值匹配时释放锁，避免误删他人锁
+        const unlockScript = `if redis.call("get", KEYS[1]) == ARGV[1] then return redis.call("del", KEYS[1]) else return 0 end`
+        _ = l.svcCtx.Redis.Rdb.Eval(l.svcCtx.Redis.Ctx, unlockScript, []string{lockKey}, lockVal).Err()
+    }()
 
 	// 先用布隆过滤器检查URL是否存在
 	// 如果存在，则直接从MySQL中读取短链
@@ -95,12 +121,12 @@ func (l *GenerateShortUrlLogic) GenerateShortUrl(in *shortUrl.GenerateShortUrlRe
 		Url:      in.Url,
 	}
 
-	if err := l.svcCtx.DB.Create(&shorturl).Error; err != nil {
-		return &shortUrl.GenerateShortUrlResponse{
-			Code:      errmsg.ERROR_FAILED_TO_SAVE_TO_MYSQL,
-			Shortcode: "",
-		}, errors.New("fail to save to mysql")
-	}
+    if err := l.svcCtx.DB.Create(&shorturl).Error; err != nil {
+        return &shortUrl.GenerateShortUrlResponse{
+            Code:      errmsg.ERROR_FAILED_TO_SAVE_TO_MYSQL,
+            Shortcode: "",
+        }, errors.New("fail to save to mysql")
+    }
 
 	if err := l.svcCtx.Redis.Rdb.Set(l.svcCtx.Redis.Ctx, shortCode, in.Url, expireDuration).Err(); err != nil {
 		return &shortUrl.GenerateShortUrlResponse{
