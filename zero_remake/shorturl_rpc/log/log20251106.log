@@ -4,3 +4,5 @@ time="2025-11-06 18:29:45" level=info msg="RPC call succeeded" duration=58.1041m
 time="2025-11-06 18:54:22" level=info msg="RPC call succeeded" duration=83.9767ms method=/shortUrl.ShortUrl/GenerateShortUrl
 time="2025-11-06 18:54:23" level=info msg="RPC call succeeded" duration=6.5034ms method=/shortUrl.ShortUrl/GenerateShortUrl
 time="2025-11-06 18:54:24" level=info msg="RPC call succeeded" duration=5.7836ms method=/shortUrl.ShortUrl/HandleShort
+time="2025-11-06 19:02:31" level=info msg="RPC call succeeded" duration=40.4406ms method=/shortUrl.ShortUrl/GenerateShortUrl
+time="2025-11-06 19:02:32" level=info msg="RPC call succeeded" duration=6.1998ms method=/shortUrl.ShortUrl/HandleShort

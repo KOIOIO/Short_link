@@ -687,3 +687,91 @@ BizRedis:
 5. **安全可靠**: 完善的安全防护和监控体系
 
 系统设计充分考虑了互联网应用的特点，能够支撑大规模用户访问和高并发场景，为业务发展提供稳定可靠的技术支撑。
+
+## 14. 分布式锁实现（防止并发唯一索引冲突）
+
+### 14.1 背景与目标
+- 背景：在高并发下，同一原始 URL 被重复提交生成短码，可能在数据库插入阶段触发唯一索引或业务冲突（例如相同 URL 的短码生成过程并行进行）。
+- 目标：对“同一原始 URL 的短链生成过程”进行跨实例串行化，避免并发写入导致的冲突，同时确保锁在异常情况下能自动释放。
+
+### 14.2 技术方案
+- 锁类型：基于 Redis 的分布式互斥锁，使用 `SET key value NX EX ttl`。
+- 锁粒度：按 URL 维度加锁，key 采用 `shorturl:lock:gen:{sha1(url)}`，避免长 URL 作为 key 的问题并保证跨实例一致。
+- 锁值（token）：每次加锁使用随机 token（如 `uuid`），用于安全解锁校验。
+- 过期时间（TTL）：默认 `5s`，考虑数据库写入与缓存更新的耗时，避免死锁；可按实际耗时调整。
+- 解锁方式：使用 Lua 脚本原子校验删除，确保只释放自己持有的锁，避免误删他人锁。
+- 重试策略：未获取到锁时以 `100ms` 为步长重试，最多重试 `10` 次（约 1 秒），结合指数退避或轻微随机抖动可进一步降低“惊群”。
+
+### 14.3 关键实现位置
+- `zero_remake/shorturl_rpc/internal/logic/generateshorturllogic.go`
+- `zero_remake/shorturl_rpc/internal/logic/filterbymybloomfilterlogic.go`
+- `zero_remake/shorturl_rpc/internal/logic/generatewithiplimterlogic.go`
+- `zero_remake/shorturl_rpc/internal/logic/generateidbmysnowflakelogic.go`
+
+上述四处在“数据库插入/写入缓存/更新布隆”等关键区段前统一加锁，确保同一 URL 的生成链路在并发下被串行化。
+
+### 14.4 伪代码示例
+```go
+// 生成分布式锁 key 与 token
+lockKey := fmt.Sprintf("shorturl:lock:gen:%x", sha1.Sum([]byte(url)))
+token := uuid.NewString()
+ttl := 5 * time.Second
+
+// 尝试获取锁（SET NX EX），失败则重试
+acquired := false
+for i := 0; i < 10; i++ {
+    ok, err := redisClient.SetNX(ctx, lockKey, token, ttl).Result()
+    if err != nil {
+        // 可记录日志并进行有限次重试
+    }
+    if ok {
+        acquired = true
+        break
+    }
+    time.Sleep(100 * time.Millisecond)
+}
+if !acquired {
+    // 返回友好错误，提示稍后再试或走查重逻辑
+}
+
+// 关键区段：生成雪花 ID、编码、写库、写缓存、写布隆等
+// ...
+
+// 安全释放锁（Lua 脚本保证原子性）
+unlockLua := `
+if redis.call('GET', KEYS[1]) == ARGV[1] then
+    return redis.call('DEL', KEYS[1])
+else
+    return 0
+end`
+_, _ = redisClient.Eval(ctx, unlockLua, []string{lockKey}, token).Result()
+```
+
+### 14.5 配置与依赖
+- Redis 初始化与配置：
+  - `zero_remake/shorturl_rpc/internal/svc/servicecontext.go` 暴露 `Redis` 客户端与 `RedisBloom`。
+  - `zero_remake/shorturl_rpc/internal/config/config.go` 中的 `BizRedis` 配置项：
+    ```yaml
+    BizRedis:
+      RedisHost: 127.0.0.1
+      RedisPort: "6379"
+      RedisPass: ""
+      RedisDB: 0
+    ```
+- 依赖模块：标准 Redis，无需额外模块（Lua 解锁使用原生命令）。
+
+### 14.6 设计权衡与注意事项
+- TTL 设置过短可能在长事务下过期导致他人抢锁；过长可能延长故障影响面。建议结合实际耗时与监控动态调整。
+- 解锁必须基于 token 校验；禁止无条件 `DEL`，避免误删他人锁导致并发写入。
+- 锁冲突率可通过埋点统计（获取锁耗时、失败次数）评估与优化重试退避策略。
+- 如对单 key 竞争非常激烈可考虑队列化、去重合并或采用更强的 `RedLock` 方案（本项目未启用）。
+
+### 14.7 验证与压测建议
+- 功能验证：对同一 URL 在并发下仅产生一条数据库记录，无唯一索引异常。
+- 压测方法：使用 `tools/bench/bench_http.go` 或并发 curl/ab/hey 对 `/generate` 进行压测；观察 RPC/API 日志与数据库写入结果。
+- 监控点：锁获取成功率、平均等待时间、错误率（含超时重试失败）。
+
+### 14.8 与其他组件的协同
+- 布隆过滤器：加锁后再进行布隆检查与写入，避免误判导致的重复生成。
+- 雪花算法：ID 生成在锁保护范围内，确保并发下不会导致重复插入同一 URL 的不同短码。
+- 缓存更新：与数据库写入同一临界区，保证缓存与存储的一致性。
