@@ -5,18 +5,14 @@ import (
 	"crypto/sha1"
 )
 
-// bloomFilterSize 定义了布隆过滤器的大小，即位数组的长度。
-const bloomFilterSize = 1000000
-
-// numHashFunctions 定义了使用的哈希函数的数量。
+const bloomFilterSize = 100
 const numHashFunctions = 7
 
-// BloomFilter 是一个布隆过滤器结构体，包含一个位数组。
 type BloomFilter struct {
 	bitArray []bool
 }
 
-// NewBloomFilter 创建并返回一个新的布隆过滤器实例。
+// 返回布隆
 func NewBloomFilter() *BloomFilter {
 	return &BloomFilter{
 		bitArray: make([]bool, bloomFilterSize),
@@ -26,10 +22,25 @@ func NewBloomFilter() *BloomFilter {
 // Add 方法将给定的URL添加到布隆过滤器中。
 // 它通过计算多个哈希值并将相应的位设置为true来实现。
 func (bf *BloomFilter) Add(url string) {
+	// 若当前位数组已满（所有位为 true），则先扩容
+	if bf.isFull() {
+		bf.AddCapacity()
+	}
 	hashes := bf.getHashIndices(url)
 	for _, index := range hashes {
 		bf.bitArray[index] = true
 	}
+	// 如果本次写入使位数组达到满载，则立即扩容，降低后续误判
+	if bf.isFull() {
+		bf.AddCapacity()
+	}
+}
+
+// 用于扩容bloomfliter
+func (bf *BloomFilter) AddCapacity() {
+	newBitArray := make([]bool, len(bf.bitArray)*2)
+	copy(newBitArray, bf.bitArray)
+	bf.bitArray = newBitArray
 }
 
 // MightContain 方法检查布隆过滤器是否可能包含给定的URL。
@@ -51,15 +62,26 @@ func (bf *BloomFilter) getHashIndices(url string) []int {
 	hashes := make([]int, numHashFunctions)
 	hash1 := md5.Sum([]byte(url))
 	hash2 := sha1.Sum([]byte(url))
+	size := len(bf.bitArray)
 	for i := 0; i < numHashFunctions; i++ {
 		combinedHash := hash1[i%len(hash1)] + hash2[(i*2)%len(hash2)]
-		index := int(combinedHash) % bloomFilterSize
+		index := int(combinedHash) % size
 		if index < 0 {
 			index = -index
 		}
 		hashes[i] = index
 	}
 	return hashes
+}
+
+// isFull 检查位数组是否已满（所有位都为 true）。
+func (bf *BloomFilter) isFull() bool {
+	for _, b := range bf.bitArray {
+		if !b {
+			return false
+		}
+	}
+	return true
 }
 
 // Bloom 是一个全局的布隆过滤器实例
