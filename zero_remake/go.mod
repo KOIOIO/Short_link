@@ -1,6 +1,6 @@
 module github.com/shorturl/short-url/zero_remake
 
-go 1.24.3
+go 1.26.1
 
 require (
 	github.com/go-redis/redis/v8 v8.11.5
