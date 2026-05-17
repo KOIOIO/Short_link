@@ -1,0 +1,3 @@
+time="2026-05-17 12:19:46" level=info msg="RPC call succeeded" duration=13.232709ms method=/shortUrl.ShortUrl/GenerateShortUrl
+time="2026-05-17 12:19:48" level=info msg="RPC call succeeded" duration=2.358916ms method=/shortUrl.ShortUrl/HandleShort
+time="2026-05-17 12:20:37" level=info msg="RPC call succeeded" duration=4.149917ms method=/shortUrl.ShortUrl/HandleShort

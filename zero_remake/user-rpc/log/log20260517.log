@@ -1,0 +1,2 @@
+time="2026-05-17 12:19:07" level=info msg="RPC call succeeded" duration=78.158958ms method=/User.UserService/Register
+time="2026-05-17 12:19:25" level=info msg="RPC call succeeded" duration=72.48175ms method=/User.UserService/Login
